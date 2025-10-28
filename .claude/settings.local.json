@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(pnpm install)",
+      "Bash(rm:*)",
+      "Bash(cat:*)",
+      "Bash(npm run build:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(git init)",
+      "Bash(git remote add origin:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(ssh:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git config:*)",
+      "Bash(curl:*)",
+      "Bash(git ls-remote:*)",
+      "Bash(echo:*)",
+      "Read(//home/andydi/.ssh/**)",
+      "Bash(ping:*)",
+      "Bash(nslookup:*)",
+      "Read(//run/systemd/resolve/**)",
+      "Bash(dig:*)",
+      "Bash(resolvectl:*)",
+      "Bash(sudo tee:*)",
+      "Read(//etc/**)",
+      "Bash(git rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
