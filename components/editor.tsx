@@ -6,6 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import { AuthGuard } from "@/components/auth-guard"
 import { toast } from "sonner"
 
 export function Editor() {
@@ -75,7 +76,8 @@ export function Editor() {
   }
 
   return (
-    <section id="editor" className="py-20">
+    <AuthGuard>
+      <section id="editor" className="py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">体验 AI 编辑器</h2>
@@ -237,5 +239,6 @@ export function Editor() {
         </div>
       </div>
     </section>
+    </AuthGuard>
   )
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { UserMenu } from "@/components/user-menu"
 import { useState } from "react"
 
 export function Header() {
@@ -39,12 +40,7 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" size="sm">
-            登录
-          </Button>
-          <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
-            立即开始
-          </Button>
+          <UserMenu />
         </div>
 
         <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -88,12 +84,9 @@ export function Header() {
               常见问题
             </a>
             <div className="flex flex-col gap-2 pt-2">
-              <Button variant="outline" size="sm">
-                登录
-              </Button>
-              <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                立即开始
-              </Button>
+              <div className="flex justify-center">
+                <UserMenu />
+              </div>
             </div>
           </nav>
         </div>
