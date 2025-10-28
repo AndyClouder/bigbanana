@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-  defaultHeaders: {
-    "HTTP-Referer": "https://bigbanana.ai", // Site URL for rankings
-    "X-Title": "Big Banana", // Site title for rankings
-  },
-});
-
 export async function POST(request: NextRequest) {
   try {
+    // Initialize OpenAI client only when needed
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENROUTER_API_KEY,
+      defaultHeaders: {
+        "HTTP-Referer": "https://bigbanana.ai", // Site URL for rankings
+        "X-Title": "Big Banana", // Site title for rankings
+      },
+    });
+
     console.log('API Key exists:', !!process.env.OPENROUTER_API_KEY);
 
     const { imageUrl, prompt } = await request.json();
