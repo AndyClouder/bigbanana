@@ -64,24 +64,58 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase])
 
   const signInWithGitHub = async () => {
+    console.log('GitHub登录按钮被点击')
+    console.log('Supabase客户端状态:', !!supabase)
+    console.log('环境变量状态:', {
+      NEXT_PUBLIC_SUPABASE_URL: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    })
+
     if (!supabase) {
+      console.error('Supabase 未配置')
       toast.error('Supabase 未配置')
       return
     }
 
+    // 显示加载状态
+    toast.loading('正在连接GitHub...')
+
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      console.log('开始GitHub OAuth登录流程...')
+
+      // 添加超时处理
+      const loginPromise = supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
           redirectTo: `${window.location.origin}/api/auth/callback`,
         },
       })
 
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('连接超时，请重试')), 10000)
+      })
+
+      const { error } = await Promise.race([loginPromise, timeoutPromise]) as any
+
+      // 清除加载状态
+      toast.dismiss()
+
       if (error) {
+        console.error('GitHub登录错误:', error)
+        toast.error('登录失败：' + error.message)
+      } else {
+        console.log('GitHub登录流程已启动')
+        toast.success('正在跳转到GitHub授权...')
+      }
+    } catch (error: any) {
+      console.error('GitHub登录异常:', error)
+      toast.dismiss()
+
+      if (error.message.includes('超时')) {
+        toast.error('网络连接超时，请检查网络后重试')
+      } else {
         toast.error('登录失败：' + error.message)
       }
-    } catch (error) {
-      toast.error('登录失败：' + (error as Error).message)
     }
   }
 

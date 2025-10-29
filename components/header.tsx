@@ -2,10 +2,29 @@
 
 import { Button } from "@/components/ui/button"
 import { UserMenu } from "@/components/user-menu"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+
+  // 智能导航函数
+  const handleNavigation = (sectionId: string) => {
+    // 关闭移动菜单
+    setMobileMenuOpen(false)
+
+    if (pathname === '/') {
+      // 在首页时，使用锚点跳转
+      const element = document.getElementById(sectionId.replace('#', ''))
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    } else {
+      // 在其他页面时，跳转到首页并带上锚点
+      window.location.href = `/${sectionId}`
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -16,27 +35,30 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <a
-            href="#editor"
+          <button
+            onClick={() => handleNavigation('#editor')}
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             图像编辑器
-          </a>
-          <a
-            href="#showcase"
+          </button>
+          <button
+            onClick={() => handleNavigation('#showcase')}
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             作品展示
-          </a>
+          </button>
           <a
-            href="#pricing"
+            href="/pricing"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             价格方案
           </a>
-          <a href="#faq" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <button
+            onClick={() => handleNavigation('#faq')}
+            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
             常见问题
-          </a>
+          </button>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
@@ -59,30 +81,30 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-border">
           <nav className="container flex flex-col gap-4 py-4">
-            <a
-              href="#editor"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            <button
+              onClick={() => handleNavigation('#editor')}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
             >
               图像编辑器
-            </a>
-            <a
-              href="#showcase"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            </button>
+            <button
+              onClick={() => handleNavigation('#showcase')}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
             >
               作品展示
-            </a>
+            </button>
             <a
-              href="#pricing"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              href="/pricing"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
             >
               价格方案
             </a>
-            <a
-              href="#faq"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            <button
+              onClick={() => handleNavigation('#faq')}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors text-left"
             >
               常见问题
-            </a>
+            </button>
             <div className="flex flex-col gap-2 pt-2">
               <div className="flex justify-center">
                 <UserMenu />

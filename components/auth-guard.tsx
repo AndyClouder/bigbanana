@@ -15,11 +15,11 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
   const { user, loading, signInWithGitHub } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login')
-    }
-  }, [user, loading, router])
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     router.push('/login')
+  //   }
+  // }, [user, loading, router])
 
   if (loading) {
     return (
