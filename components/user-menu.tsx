@@ -14,15 +14,14 @@ import { useAuth } from '@/contexts/auth-context-provider'
 import { Github, LogOut } from 'lucide-react'
 
 export function UserMenu() {
-  const { user, signOut } = useAuth()
+  const { user, signInWithGitHub, signOut } = useAuth()
 
+  // 如果用户未登录，显示登录按钮
   if (!user) {
     return (
-      <Button variant="outline" size="sm" asChild>
-        <a href="/login">
-          <Github className="w-4 h-4 mr-2" />
-          登录
-        </a>
+      <Button onClick={signInWithGitHub} className="gap-2">
+        <Github className="h-4 w-4" />
+        使用 GitHub 登录
       </Button>
     )
   }
